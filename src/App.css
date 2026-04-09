@@ -122,6 +122,97 @@
   }
 }
 
+.navbar__searchPanel {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 20px;
+  background: rgba(15, 23, 42, 0.96);
+  box-shadow: 0 24px 50px rgba(2, 6, 23, 0.42);
+}
+
+.navbar__selectedGame {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 16px;
+  background: rgba(8, 47, 73, 0.3);
+}
+
+.navbar__selectedGameCover,
+.navbar__searchResultCover {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: rgba(15, 23, 42, 0.72);
+}
+
+.navbar__selectedGameText,
+.navbar__searchResultText {
+  display: grid;
+  gap: 2px;
+  text-align: left;
+}
+
+.navbar__selectedGameText span,
+.navbar__searchResultText small {
+  color: rgba(148, 163, 184, 0.92);
+  font-size: 12px;
+}
+
+.navbar__selectedGameText strong,
+.navbar__searchResultText strong {
+  color: #f8fafc;
+  font-size: 15px;
+}
+
+.navbar__searchState {
+  margin: 0;
+  color: rgba(226, 232, 240, 0.82);
+  font-size: 14px;
+}
+
+.navbar__searchState--error {
+  color: #fca5a5;
+}
+
+.navbar__searchResults {
+  display: grid;
+  gap: 10px;
+}
+
+.navbar__searchResult {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 16px;
+  padding: 10px;
+  background: rgba(15, 23, 42, 0.6);
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-1px);
+    border-color: rgba(103, 232, 249, 0.32);
+    background: rgba(30, 41, 59, 0.9);
+    outline: none;
+  }
+}
+
 .navbar__nav {
   display: flex;
   align-items: center;
