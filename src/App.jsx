@@ -8,6 +8,7 @@ const STORAGE_KEY = "loottracker.loots";
 
 function App() {
   const [isCreatingLoot, setIsCreatingLoot] = useState(false);
+  const [selectedGame, setSelectedGame] = useState(null);
   const [loots, setLoots] = useState(() => loadLoots(STORAGE_KEY));
 
   useEffect(() => {
@@ -38,6 +39,8 @@ function App() {
   return (
     <>
       <Navbar
+        selectedGame={selectedGame}
+        onSelectGame={setSelectedGame}
         onCreateLoot={() => {
           setIsCreatingLoot(true);
           requestAnimationFrame(() => {
@@ -49,6 +52,7 @@ function App() {
       />
       <Loot
         isCreatingLoot={isCreatingLoot}
+        selectedGameName={selectedGame?.name ?? ""}
         loots={loots}
         onAddLoot={handleAddLoot}
         onCancelCreate={() => setIsCreatingLoot(false)}

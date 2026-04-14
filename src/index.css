@@ -1,7 +1,7 @@
 :root {
   --text: #6b6375;
   --text-h: #08060d;
-  --bg: #fff;
+  --bg: #07111f;
   --border: #e5e4e7;
   --code-bg: #f4f3ec;
   --accent: #aa3bff;
@@ -52,18 +52,106 @@
 
 body {
   margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 12% 18%,
+      rgba(34, 211, 238, 0.22),
+      transparent 22%
+    ),
+    radial-gradient(
+      circle at 82% 12%,
+      rgba(59, 130, 246, 0.2),
+      transparent 26%
+    ),
+    radial-gradient(
+      circle at 50% 78%,
+      rgba(249, 115, 22, 0.12),
+      transparent 24%
+    ),
+    linear-gradient(180deg, #040b16 0%, #07111f 46%, #0b1729 100%);
+  background-attachment: fixed;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+  background-size: 120px 120px;
+  mask-image: radial-gradient(circle at center, black 35%, transparent 85%);
+  opacity: 0.35;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: auto -10% -18% auto;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle,
+    rgba(103, 232, 249, 0.16),
+    transparent 64%
+  );
+  filter: blur(28px);
 }
 
 #root {
   width: 1126px;
   max-width: 100%;
-  margin: 0 auto;
+  margin: 24px auto;
   text-align: center;
-  border-inline: 1px solid var(--border);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 30px;
   min-height: 100svh;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(7, 17, 31, 0.78), rgba(11, 23, 41, 0.88)),
+    rgba(6, 10, 18, 0.72);
+  box-shadow:
+    0 30px 80px rgba(2, 6, 23, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px);
+}
+
+#root::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at top center,
+      rgba(103, 232, 249, 0.1),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at left 70%,
+      rgba(59, 130, 246, 0.08),
+      transparent 24%
+    );
+}
+
+@media (max-width: 1024px) {
+  #root {
+    margin: 0;
+    border-inline: 0;
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+  }
 }
 
 h1,

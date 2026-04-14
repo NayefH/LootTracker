@@ -1,5 +1,5 @@
-// Laedt gespeicherte Loot-Eintraege aus dem localStorage und faellt bei
-// fehlenden oder ungueltigen Daten auf eine leere Liste zurueck.
+// Lädt gespeicherte Loot-Einträge aus dem localStorage und fällt bei
+// fehlenden oder ungültigen Daten auf eine leere Liste zurück.
 export function loadLoots(storageKey) {
   const storedLoots = localStorage.getItem(storageKey);
 

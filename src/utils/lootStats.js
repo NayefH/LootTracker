@@ -1,4 +1,4 @@
-// Formatiert Prozentwerte einheitlich mit zwei Nachkommastellen fuer die Anzeige.
+// Formatiert Prozentwerte einheitlich mit zwei Nachkommastellen für die Anzeige.
 export function formatPercent(value) {
   return `${value.toFixed(2)}%`;
 }

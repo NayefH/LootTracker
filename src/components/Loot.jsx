@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createLoot } from "../utils/createLoot";
 import { formatPercent, getChanceStats } from "../utils/lootStats";
 
 function Loot({
   isCreatingLoot,
+  selectedGameName,
   loots,
   onAddLoot,
   onCancelCreate,
@@ -15,6 +16,17 @@ function Loot({
     lootName: "",
     dropChance: "",
   });
+
+  useEffect(() => {
+    if (!isCreatingLoot) {
+      return;
+    }
+
+    setFormData((currentData) => ({
+      ...currentData,
+      game: selectedGameName || "",
+    }));
+  }, [isCreatingLoot, selectedGameName]);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -50,7 +62,7 @@ function Loot({
               <p className="lootFormCard__eyebrow">Neuer Eintrag</p>
               <h1>Loot erfassen</h1>
               <p>
-                Trage ein, aus welchem Spiel der Loot stammt, wie er heisst und
+                Trage ein, aus welchem Spiel der Loot stammt, wie er heißt und
                 mit welcher Wahrscheinlichkeit er droppt.
               </p>
             </div>
@@ -120,7 +132,7 @@ function Loot({
         <div className="lootList">
           <div className="lootList__header">
             <h2>Gespeicherte Loots</h2>
-            <span>{loots.length} Eintraege</span>
+            <span>{loots.length} Einträge</span>
           </div>
 
           {loots.length === 0 ? (
@@ -141,7 +153,7 @@ function Loot({
                       type="button"
                       onClick={() => onDeleteLoot(loot.id)}
                     >
-                      Loeschen
+                      Löschen
                     </button>
                   </div>
                   <strong>{loot.lootName}</strong>

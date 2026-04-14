@@ -1,56 +1,66 @@
 import { useEffect, useState } from "react";
 import { searchGamesByName } from "../utils/searchGames";
+import {
+  getGameReleaseLabel,
+  normalizeSearchTerm,
+  shouldSearchGames,
+} from "../utils/navbarSearch";
 import treasureChest from "../img/treasure-chest.png";
 
 const navItems = ["Dashboard", "Inventar"];
 
-function Navbar({ onCreateLoot }) {
+function Navbar({ onCreateLoot, onSelectGame, selectedGame }) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedGame, setSelectedGame] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [searchError, setSearchError] = useState("");
 
-  useEffect(() => {
-    const normalizedSearchTerm = searchTerm.trim();
+  useEffect(
+    () => {
+      // Code, der ausgeführt wird:
+      // Wird mindestens einmal beim Mounten ausgeführt.
+      const normalizedSearchTerm = normalizeSearchTerm(searchTerm);
 
-    if (normalizedSearchTerm.length < 2) {
-      setSearchResults([]);
-      setSearchError("");
-      setIsSearching(false);
-      return undefined;
-    }
-
-    const controller = new AbortController();
-    const timeoutId = window.setTimeout(async () => {
-      try {
-        setIsSearching(true);
-        setSearchError("");
-        const nextResults = await searchGamesByName(normalizedSearchTerm, {
-          pageSize: 5,
-          signal: controller.signal,
-        });
-        setSearchResults(nextResults);
-      } catch (error) {
-        if (error.name === "AbortError") {
-          return;
-        }
-
+      if (!shouldSearchGames(searchTerm)) {
         setSearchResults([]);
-        setSearchError(error.message);
-      } finally {
+        setSearchError("");
         setIsSearching(false);
+        return undefined;
       }
-    }, 250);
 
-    return () => {
-      controller.abort();
-      window.clearTimeout(timeoutId);
-    };
-  }, [searchTerm]);
+      const controller = new AbortController();
+      const timeoutId = window.setTimeout(async () => {
+        try {
+          setIsSearching(true);
+          setSearchError("");
+          const nextResults = await searchGamesByName(normalizedSearchTerm, {
+            pageSize: 5,
+            signal: controller.signal,
+          });
+          setSearchResults(nextResults);
+        } catch (error) {
+          if (error.name === "AbortError") {
+            return;
+          }
+
+          setSearchResults([]);
+          setSearchError(error.message);
+        } finally {
+          setIsSearching(false);
+        }
+      }, 250);
+
+      return () => {
+        controller.abort();
+        window.clearTimeout(timeoutId);
+      };
+    },
+    // Listener on change:
+    [searchTerm],
+  );
 
   function handleSelectGame(game) {
-    setSelectedGame(game);
+    onSelectGame(game);
     setSearchTerm(game.name);
     setSearchResults([]);
     setSearchError("");
@@ -82,27 +92,10 @@ function Navbar({ onCreateLoot }) {
             onChange={(event) => setSearchTerm(event.target.value)}
           />
 
-          {(isSearching ||
-            searchError ||
-            searchResults.length > 0 ||
-            selectedGame) && (
+          {(isSearching || searchError || searchResults.length > 0) && (
             <div className="navbar__searchPanel">
-              {selectedGame && (
-                <div className="navbar__selectedGame">
-                  <img
-                    className="navbar__selectedGameCover"
-                    src={selectedGame.background_image ?? treasureChest}
-                    alt=""
-                  />
-                  <div className="navbar__selectedGameText">
-                    <span>Ausgewaehlt</span>
-                    <strong>{selectedGame.name}</strong>
-                  </div>
-                </div>
-              )}
-
               {isSearching && (
-                <p className="navbar__searchState">Suche laeuft...</p>
+                <p className="navbar__searchState">Suche läuft...</p>
               )}
 
               {searchError && (
@@ -127,11 +120,7 @@ function Navbar({ onCreateLoot }) {
                       />
                       <span className="navbar__searchResultText">
                         <strong>{game.name}</strong>
-                        <small>
-                          {game.released
-                            ? `Release: ${game.released}`
-                            : "Kein Release-Datum"}
-                        </small>
+                        <small>{getGameReleaseLabel(game.released)}</small>
                       </span>
                     </button>
                   ))}
@@ -154,7 +143,7 @@ function Navbar({ onCreateLoot }) {
             type="button"
             onClick={onCreateLoot}
           >
-            Neues Loot
+            Loot tracken
           </button>
         </div>
       </div>

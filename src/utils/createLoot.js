@@ -5,7 +5,7 @@ function normalizeText(value) {
 }
 
 // Erstellt ein neues Loot-Objekt aus den Formulardaten und validiert,
-// dass alle benoetigten Felder befuellt sind.
+// dass alle benötigten Felder befüllt sind.
 export function createLoot({ game, lootName, dropChance }) {
   const normalizedGame = normalizeText(game);
   const normalizedLootName = normalizeText(lootName);
